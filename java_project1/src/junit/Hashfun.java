@@ -1,0 +1,129 @@
+package junit;
+import java.util.HashMap;
+import java.util.*;
+import java.util.Map.Entry;
+public class Hashfun{
+	 int count=0;
+      public static HashMap<Integer,Product> disp(HashMap<Integer,Product> original) {
+    	  //promain p=new promain();
+    	  HashMap<Integer,Product> bill=new HashMap<>();//temporary hashmap
+    	  Scanner sc=new Scanner(System.in);
+    	  boolean flag=true;
+    	  String c="";
+    	  //String con="";
+    	  int count=0;
+    	  while(flag && count==0) {
+    	  
+    	  System.out.println("Enter the Product ID");
+    	  int a=sc.nextInt();
+    	  if(a<=10) {
+    	  int b=sc.nextInt();
+    	  System.out.println("Are you wanted to continue:Yes/No");
+    	  c=sc.next();
+    	  
+    	  count++;
+    	  Product set=original.get(a); //assign the values based on key
+    	  int sett=set.quantity; 
+    	  Product update=new Product();
+    	  
+    	
+    	  update.proname=set.proname;
+    	  update.quantity=sett-b;       
+    	  update.productID=set.productID;
+    	  update.brand=set.brand;
+    	  update.price=set.price;
+    	  original.put(a, update);//update in original hashmap
+    	  
+    	  
+    	  Product billing=new Product();
+    	  billing.brand=set.brand;
+    	  billing.price=set.price;
+    	  billing.quantity=b;
+    	  billing.productID=set.productID;
+    	  billing.proname=set.proname;
+    	  bill.put(a, billing);//update in temporary hashmap
+    	  
+    	  if(update.quantity <= b) {
+    		  System.out.println("The product is out of stock!!!");
+    	  }
+    	  }
+    	  else {
+    		  System.out.println("Please enter the valid Product ID");
+    		  break;
+    	  }
+    	  
+    	
+    	  double finaltot=0;
+    	  if(c.equals("Yes")) {
+    		    System.out.println("+------------+------------------------+----------+--------+----------+");
+	            System.out.println("| Product ID | Product Name           |Quantity  | Brand  |Unit_price|");
+	            System.out.println("+------------+------------------------+----------+--------+----------+");
+    		  for(Entry<Integer,Product> k:bill.entrySet()) {
+    			  Product p1=k.getValue();
+    			  double val=p1.price*p1.quantity;
+    			  finaltot+=val;
+    			  if(p1.proname=="T-shirt") {
+    				  System.out.println("Congratulations you have offer on this product");
+    				  count++;
+    			  }
+    			  System.out.println();
+    			  System.out.printf("| %-10d | %-22s | %-8d | %-6s | %-8d |\n",p1.productID, p1.proname, p1.quantity, p1.brand,p1.price*p1.quantity);
+    			  System.out.println();
+    			  Discount(finaltot,count);
+    			  
+    		  }
+    		    System.out.println("+------------+------------------------+------------+----------+----------+");
+    		    System.out.println("+------------+------------------------+------------+----------+----------+");
+	            System.out.println("| Product ID | Product Name           |QuantityLeft| Brand    |Unit_price|");
+	            System.out.println("+------------+------------------------+------------+----------+------------+");
+
+    		  for(Entry<Integer,Product> o:original.entrySet()) {
+    			  Product p2=o.getValue();
+    				    			  System.out.printf("| %-10d | %-22s | %-8d | %-6s | %-8d |\n",p2.productID, p2.proname, p2.quantity, p2.brand,p2.price);
+    		  }
+    		  System.out.println("+------------+------------------------+----------+--------+----------+");
+    		  
+    	  
+    		  System.out.println("Are u want to continue?");
+    		  String str=sc.next();
+    		  if(str.equals("Yes")) {
+    			  flag=true;
+    			 count=0;
+    		  }
+    		  else {
+    		  flag=false;
+    		  }
+    		  //break;
+    	  }
+    			System.out.println("Your current bill : "+finaltot);  
+    	  //sc.close();
+    	     	  }
+    	
+    		  return ((HashMap<Integer, Product>) bill.values());    		  
+    	  }
+      public static double Discount(double finaltot,int count ){
+    	  
+		  double t1=0;
+		  double t2=0;
+		  if(finaltot > 25000) {
+			  t1=finaltot*0.2;
+		  }
+		  else if(finaltot >= 15000 && finaltot <= 25000) {
+			  t1=t1*0.1;
+		  }
+		  if(count >= 3) {
+			  t2=t1*0.1;
+		  }
+    	  return (finaltot-(t1+t2));
+    	  
+		 }
+	  
+      }
+    	   
+    	   
+    	   
+    	  
+    		
+    	  
+      
+
